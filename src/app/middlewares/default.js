@@ -1,9 +1,11 @@
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import { Router } from 'express';
 
-const bodyParser = require('body-parser');
-const defaultMiddleWare = require('express').Router()
+const defaultMiddleWare = Router()
 
-defaultMiddleWare.use(require('cors')());
+defaultMiddleWare.use(cors());
 defaultMiddleWare.use(bodyParser.urlencoded({ extended: false }));
 defaultMiddleWare.use(bodyParser.json());
 
-module.exports = defaultMiddleWare;
+export default defaultMiddleWare;

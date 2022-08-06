@@ -1,4 +1,6 @@
-const router = require('express').Router()
+import { Router } from 'express'
+
+const router = Router()
 
 router
     .route("*")
@@ -6,4 +8,4 @@ router
         res.sendStatus(404)
     })
 
-module.exports = router
+export default router

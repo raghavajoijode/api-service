@@ -1,7 +1,7 @@
 const SERVER_PORT = 3000;
 const OTP_EXPIRY_MILLI_SECONDS = 10 * 60 * 1000
 
-module.exports = {
+export {
     SERVER_PORT,
     OTP_EXPIRY_MILLI_SECONDS
 }

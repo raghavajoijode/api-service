@@ -1,8 +1,10 @@
-const router = require('express').Router()
-const { errorResponse, isExpired } = require('../../utils').functions
+import { Router } from 'express'
+import { errorResponse, isExpired } from '../../utils/functions.js'
+import defaultMiddleWare from '../../middlewares/default.js'
 // middleware that is specific to this router
+const router = Router()
 
-router.use(require('../../middlewares/default'))
+router.use(defaultMiddleWare)
 
 let OTPs = [];
 
@@ -47,7 +49,7 @@ router.route('/validate/:mobileNumber')
                 res.status(400).json({ success: false, message: 'OTP expired' })
                 return
             }
-            
+
             res.json({ success: true })
         } catch (error) {
             console.log(error)
@@ -60,4 +62,4 @@ router.route('/')
         res.send(OTPs)
     })
 
-module.exports = router
+export default router;
