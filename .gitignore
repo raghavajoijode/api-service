@@ -68,8 +68,8 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-# .env // not recommend, but I am sure, i'll place only test values for a commit
+# dotenv environment variables file  // not recommend, but I am sure, i'll place only test values for a commit
+.env
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
