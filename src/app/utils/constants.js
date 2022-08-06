@@ -1,4 +1,4 @@
-const SERVER_PORT = 3000;
+const SERVER_PORT = process.env.PORT || 3000;
 const OTP_EXPIRY_MILLI_SECONDS = 10 * 60 * 1000
 
 export {
