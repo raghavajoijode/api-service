@@ -1,7 +1,7 @@
 import express from 'express'
 import { SERVER_PORT } from './utils/constants.js'
 import apiRouter from './routes/api.js'
-import notFoundRouter from './modules/404/index.js'
+import notFoundRouter from './services/404/index.js'
 
 const app = express();
 

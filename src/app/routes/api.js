@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import otpRouter from '../modules/otp/index.js';
-import notFoundRouter from '../modules/404/index.js'
+import otpRouter from '../services/otp/index.js';
+import notFoundRouter from '../services/404/index.js'
 
 
 const router = Router()
