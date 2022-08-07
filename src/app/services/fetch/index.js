@@ -1,6 +1,4 @@
 import { Router } from 'express'
-import fetch from 'node-fetch'
-import { errorResponse, isExpired } from '../../utils/functions.js'
 import defaultMiddleWare from '../../middlewares/default.js'
 import exampleFetchRouter from './example.js'
 

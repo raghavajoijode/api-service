@@ -1,7 +1,8 @@
 import { Router } from 'express'
 import fetch from 'node-fetch'
-import { errorResponse, isExpired } from '../../utils/functions.js'
 import defaultMiddleWare from '../../middlewares/default.js'
+import { validateCaptcha } from '../../middlewares/reCaptcha.js'
+import { GOOGLE_RECAPTCHA_KEY, GOOGLE_RECAPTCHA_KEY_V2 } from '../../utils/constants.js'
 
 // middleware that is specific to this router
 const router = Router()
@@ -9,7 +10,7 @@ const router = Router()
 router.use(defaultMiddleWare)
 
 router.route('/post')
-    .get(async (req, res) => {
+    .get(validateCaptcha(GOOGLE_RECAPTCHA_KEY_V2), async (req, res) => {
         try {
             const body = {
                 title: "foo",
@@ -24,14 +25,13 @@ router.route('/post')
             const json = await response.json();
             res.status(response.status).json(json);
         } catch (error) {
-            console.log(error)
-            errorResponse(res, error)
+            next(error)
         }
 
     })
 
 router.route('/get')
-    .get(async (req, res) => {
+    .get(validateCaptcha(GOOGLE_RECAPTCHA_KEY), async (req, res) => {
         try {
             let response = await fetch("https://jsonplaceholder.typicode.com/posts", {
                 headers: { "Content-Type": "application/json" }
@@ -39,8 +39,7 @@ router.route('/get')
             const json = await response.json()
             res.status(response.status).json(json);
         } catch (error) {
-            console.log(error)
-            errorResponse(res, error)
+            next(error)
         }
     })
 
