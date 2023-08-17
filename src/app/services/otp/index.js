@@ -1,6 +1,6 @@
-import { Router } from 'express'
-import { errorResponse, isExpired } from '../../utils/functions.js'
-import defaultMiddleWare from '../../middlewares/default.js'
+import { Router } from 'express';
+import { errorResponse, isExpired } from '../../utils/functions.js';
+import defaultMiddleWare from '../../middlewares/default.js';
 // middleware that is specific to this router
 const router = Router()
 
