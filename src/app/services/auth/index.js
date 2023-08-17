@@ -2,9 +2,9 @@ import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
-import { errorResponse, isExpired } from '../../utils/functions.js';
 import defaultMiddleWare from '../../middlewares/default.js';
 import verifyToken from '../../services/auth/middleware.js'
+import {AUTH_JWT_EXPIRY, AUTH_JWT_KEY} from "../../utils/constants.js";
 
 // middleware that is specific to this router
 const router = Router()
@@ -13,7 +13,7 @@ router.use(defaultMiddleWare)
 let Users = [];
 
 router.route('/register')
-    .post((req, res) => {
+    .post((req, res, next) => {
         try {
             const { firstName, lastName, email, password } = req.body;
 
@@ -41,9 +41,9 @@ router.route('/register')
 
             const token = jwt.sign(
                 { uid: user.id, email },
-                "key",
+                AUTH_JWT_KEY,
                 {
-                    expiresIn: "2h",
+                    expiresIn: AUTH_JWT_EXPIRY,
                 }
             );
 
@@ -53,13 +53,12 @@ router.route('/register')
             delete clonedUser.password
             return res.status(201).json(clonedUser);
         } catch (error) {
-            console.log(error);
-            errorResponse(res, error)
+            next(error)
         }
     });
 
 router.route('/login')
-    .post((req, res) => {
+    .post((req, res, next) => {
         try {
             const { email, password } = req.body;
             if (!(email && password)) {
@@ -71,9 +70,9 @@ router.route('/login')
             if (user && (bcrypt.compare(password, user.password))) {
                 const token = jwt.sign(
                     { uid: user.id, email },
-                    "key",
+                    AUTH_JWT_KEY,
                     {
-                        expiresIn: "2h",
+                        expiresIn: AUTH_JWT_EXPIRY,
                     }
                 );
                 user.token = token;
@@ -83,8 +82,7 @@ router.route('/login')
             }
             return res.status(400).send("Invalid Credentials");
         } catch (error) {
-            console.log(err);
-            errorResponse(res, error)
+            next(error)
         }
     });
 

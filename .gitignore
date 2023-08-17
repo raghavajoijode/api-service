@@ -61,14 +61,14 @@ typings/
 
 # Optional REPL history
 .node_repl_history
-
+.idea
 # Output of 'npm pack'
 *.tgz
 
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# dotenv environment variables file  // not recommend, but I am sure, i'll place only test values for a commit
 .env
 .env.test
 

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { errorResponse, isExpired } from '../../utils/functions.js';
+import { isExpired } from '../../utils/functions.js';
 import defaultMiddleWare from '../../middlewares/default.js';
 // middleware that is specific to this router
 const router = Router()
@@ -9,7 +9,7 @@ router.use(defaultMiddleWare)
 let OTPs = [];
 
 router.route('/:mobileNumber')
-    .get((req, res) => {
+    .get((req, res, next) => {
         try {
             let mobileNumber = req.params.mobileNumber;
             let requestedDate = new Date().getTime();
@@ -27,14 +27,13 @@ router.route('/:mobileNumber')
             }
             res.send(otpObject)
         } catch (error) {
-            console.log(error)
-            errorResponse(res, error)
+            next(error)
         }
 
     })
 
 router.route('/validate/:mobileNumber')
-    .get((req, res) => {
+    .get((req, res, next) => {
         try {
             let mobileNumber = req.params.mobileNumber;
             let requestedDate = new Date().getTime();
@@ -52,8 +51,7 @@ router.route('/validate/:mobileNumber')
 
             res.json({ success: true })
         } catch (error) {
-            console.log(error)
-            errorResponse(res, error)
+            next(error)
         }
     })
 

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import {AUTH_JWT_KEY} from "../../utils/constants.js";
 
 const verifyToken = (req, res, next) => {
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
@@ -6,7 +7,7 @@ const verifyToken = (req, res, next) => {
         return res.status(403).send("A token is required for authentication");
     }
     try {
-        const decoded = jwt.verify(token, "key");
+        const decoded = jwt.verify(token, AUTH_JWT_KEY);
         req.user = decoded;
     } catch (err) {
         console.log(err);
