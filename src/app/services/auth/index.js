@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { v4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { errorResponse, isExpired } from '../../utils/functions.js';
 import defaultMiddleWare from '../../middlewares/default.js';
+import verifyToken from '../../services/auth/middleware.js'
 
 // middleware that is specific to this router
 const router = Router()
@@ -26,12 +27,12 @@ router.route('/register')
             if (oldUser) {
                 return res.status(409).send("User Already Exist. Please Login");
             }
-            console.log("pass ", req.body)
+
             const encryptedPassword = bcrypt.hashSync(password, 10);
 
             // Create user in our database
             const user = {
-                id: v4(),
+                id: uuidv4(),
                 firstName,
                 lastName,
                 email: email.toLowerCase(),
@@ -48,8 +49,9 @@ router.route('/register')
 
             user.token = token;
             Users.push(user);
-            delete user.password
-            return res.status(201).json(user);
+            let clonedUser = { ...user };
+            delete clonedUser.password
+            return res.status(201).json(clonedUser);
         } catch (error) {
             console.log(error);
             errorResponse(res, error)
@@ -74,10 +76,10 @@ router.route('/login')
                         expiresIn: "2h",
                     }
                 );
-
                 user.token = token;
-                delete user.password
-                return res.status(200).json(user);
+                let clonedUser = { ...user };
+                delete clonedUser.password
+                return res.status(200).json(clonedUser);
             }
             return res.status(400).send("Invalid Credentials");
         } catch (error) {
@@ -87,7 +89,7 @@ router.route('/login')
     });
 
 router.route('/')
-    .get((req, res) => {
+    .get(verifyToken, (req, res) => {
         res.send(Users)
     })
 

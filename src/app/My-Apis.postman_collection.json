@@ -726,7 +726,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Test\",\n    \"lastName\": \"Test\",\n    \"email\": \"test.test@gmail.com\",\n    \"password\": \"DummyPassword\"\n}",
+							"raw": "{\n    \"email\": \"test.test@gmail.com\",\n    \"password\": \"DummyPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -734,7 +734,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/auth/register",
+							"raw": "http://localhost:3000/api/auth/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -743,7 +743,7 @@
 							"path": [
 								"api",
 								"auth",
-								"register"
+								"login"
 							]
 						}
 					},
